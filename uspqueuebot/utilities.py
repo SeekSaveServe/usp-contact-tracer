@@ -2,7 +2,32 @@ import hashlib
 
 from uspqueuebot.constants import NUMBER_TO_BUMP
 from uspqueuebot.database import get_table, remove_user
+# for exporting data as csv file
+import csv, io
 
+def send_csv(bot, lst: "List[List[Any]]", fname: str, chat_id):
+    """
+    Returns data as a .csv file
+    https://okhlopkov.medium.com/dont-save-a-file-on-disk-to-send-it-with-telegram-bot-d7cd591fec2d
+    """
+    # csv module can write data in io.StringIO buffer only
+    s = io.StringIO()
+    csv.writer(s).writerows(test_data)
+    s.seek(0)
+
+    # python-telegram-bot library can send files only from io.BytesIO buffer
+    # we need to convert StringIO to BytesIO
+    buf = io.BytesIO()
+
+    # extract csv-string, convert it to bytes and write to buffer
+    buf.write(s.getvalue().encode())
+    buf.seek(0)
+
+    # set a filename with file's extension
+    buf.name = f'{fname}.csv'
+
+    # send the buffer as a regular file
+    bot.send_document(chat_id=update.message.chat_id, document=buf)
 
 def get_message_type(body):
     """
@@ -84,14 +109,27 @@ def get_sha256_hash(plaintext):
     hash = hasher.hexdigest()
     return hash
 
-def get_queue():
+def get_queue(room_no, isAdmin=False):
     raw_table = get_table()
     queue = []
-    for entry in raw_table["Items"]:
-        queue_number = decimal_to_int(entry["queue_number"])
-        chat_id = decimal_to_int(entry["chat_id"])
-        username = entry["username"]
-        queue.append((queue_number, chat_id, username))
+    if not isAdmin:
+        for entry in raw_table["Items"]:
+            if entry["room_no"] != room_no and room_no != "all":
+                continue
+            queue_number = decimal_to_int(entry["queue_number"])
+            chat_id = decimal_to_int(entry["chat_id"])
+            username = entry["username"]
+            queue.append((queue_number, chat_id, username))
+    else:
+        for entry in raw_table["Items"]:
+            if entry["room_no"] != room_no and room_no != "all":
+                continue
+            queue_number = decimal_to_int(entry["queue_number"])
+            chat_id = decimal_to_int(entry["chat_id"])
+            username = entry["username"]
+            entry_time = entry["entry_time"]
+            exit_time = exit_timr["exit_time"]
+            queue.append((queue_number, chat_id, username, entry_time, exit_time, room_no))
     queue.sort()
     return queue
 

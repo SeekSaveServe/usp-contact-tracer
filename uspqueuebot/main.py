@@ -71,52 +71,58 @@ def main(bot, body):
         logger.info("Help command detected and processed.")
         return
 
-    queue = get_queue()
-
     # join command
-    if text == "/join":
-        join_command(bot, queue, chat_id, username)
+    if text[:4] == "/join":
+        room_no[4:]
+        queue = get_queue(room_no)
+        join_command(bot, queue, chat_id, username, room_no)
         logger.info("Join command detected and processed.")
         return
 
     # leave command
-    if text == "/leave":
-        leave_command(bot, queue, chat_id)
+    if text[:5] == "/leave":
+        room_no = text[5:]
+        queue = get_queue(room_no)
+        leave_command(bot, queue, chat_id, room_no)
         logger.info("Leave command detected and processed.")
         return
 
     # howlong command
-    if text == "/howlong":
-        howlong_command(bot, queue, chat_id)
-        logger.info("Howlong command detected and processed.")
-        return
+    # if text == "/howlong":
+    #     howlong_command(bot, queue, chat_id)
+    #     logger.info("Howlong command detected and processed.")
+    #     return
 
     # admin commands
     if chat_id in ADMINS.values():
         # viewqueue command
-        if text == "/viewqueue":
-            viewqueue_command(bot, queue, chat_id)
+        if text[:9] == "/viewqueue":
+            room_no = text[9:]
+            queue = get_queue(room_no, isAdmin=True)
+            viewqueue_command(bot, queue, chat_id, queue_no)
             logger.info("Admin viewqueue command detected and processed.")
             return
         
         # next command
-        if text == "/next":
-            next_command(bot, queue, chat_id)
-            logger.info("Next command detected and processed.")
-            return
+        # if text == "/next":
+        #     next_command(bot, queue, chat_id)
+        #     logger.info("Next command detected and processed.")
+        #     return
 
         # bump command
-        if text == "/bump":
-            bump_command(bot, queue, chat_id)
-            logger.info("Bump command detected and processed.")
-            return
+        # if text == "/bump":
+        #     bump_command(bot, queue, chat_id)
+        #     logger.info("Bump command detected and processed.")
+        #     return
 
-        if text == "/purge":
-            purge_command(bot, queue, chat_id)
-            logger.info("Purge command detected and processed.")
-            return
+        # if text == "/purge":
+        #     purge_command(bot, queue, chat_id)
+        #     logger.info("Purge command detected and processed.")
+        #     return
 
         if text[:10] == "/broadcast":
+            room_no = "all"
+            queue = get_queue(room_no, isAdmin=True)
             broadcast_command(bot, queue, chat_id, text[10:])
             logger.info("Broadcast command detected and processed.")
             return

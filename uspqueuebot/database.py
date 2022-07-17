@@ -1,6 +1,9 @@
 import logging
 import boto3
-
+import datetime
+import pytz
+# time-zone
+time_zone = "Singapore"
 # Logging is cool!
 logger = logging.getLogger()
 if logger.handlers:
@@ -61,23 +64,26 @@ def get_table():
         response = get_table()
         return response    
 
-def insert_user(hashid, chat_id, username, queue_number):
+def insert_user(hashid, chat_id, username, queue_number, room_no):
     """
-    Insert a new entry into the table
+    Insert a new entry into the table with timestamp
     """
+    timestamp = datetime.datetime().now(pytz.timezone(time_zone))
     table.update_item(
         Key = {"hashid": hashid},
-        UpdateExpression = "SET {} = :val1, {} =:val2, {} = :val3".format("chat_id", "username", "queue_number"),
-        ExpressionAttributeValues = {":val1": chat_id, ":val2": username, ":val3": queue_number}
+        UpdateExpression = "SET {} = :val1, {} =:val2, {} =:val3, {} =:val4, {} =:val5, {} =:val6".format("chat_id", "username", "queue_number", "entry_time", "exit_time", "room_no"),
+        ExpressionAttributeValues = {":val1": chat_id, ":val2": username, ":val3": queue_number, ":val4": timestamp, ":val5": False, "val6":room_no}
         )
     logger.info("New entry successfully added into DynamoDB.")
 
 def remove_user(hashid):
     """
-    Removes an entry from the table using hashid
+    Adds exit time to an entry with hashid
     """
-
-    table.delete_item(
-        Key = {"hashid": hashid}
-    )
-    logger.info("User has been successfully removed from the database.")
+    timestamp = datetime.datetime().now(pytz.timezone(time_zone))
+    table.update_item(
+        Key = {"hashid": hashid},
+        UpdateExpression = "SET {} =:val5".format("chat_id", "username", "queue_number", "entry_time", "exit_time"),
+        ExpressionAttributeValues = {":val5": timestamp}
+        )
+    logger.info("Exit time successfully updated into DynamoDB.")
