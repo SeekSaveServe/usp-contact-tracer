@@ -4,8 +4,10 @@ from uspqueuebot.constants import (HELP_MESSAGE, INVALID_COMMAND_MESSAGE,
                                    INVALID_FORMAT_MESSAGE, NO_COMMAND_MESSAGE,
                                    START_MESSAGE, UNDER_MAINTENANCE_MESSAGE)
 from uspqueuebot.credentials import ADMIN_CHAT_ID, ADMINS
-from uspqueuebot.logic import (broadcast_command, bump_command, howlong_command, join_command,
-                               leave_command, next_command, purge_command, viewqueue_command)
+# from uspqueuebot.logic import (broadcast_command, bump_command, howlong_command, join_command,
+#                                leave_command, next_command, purge_command, viewqueue_command)
+from uspqueuebot.logic import (broadcast_command, join_command,leave_command,  viewqueue_command)
+
 from uspqueuebot.utilities import (extract_user_details, get_message_type,
                                    get_queue)
 
