@@ -75,7 +75,7 @@ def main(bot, body):
 
     # join command
     if text[:5] == "/join":
-        room_no[5:]
+        room_no = text[5:]
         queue = get_queue(room_no)
         join_command(bot, queue, chat_id, username, room_no)
         logger.info("Join command detected and processed.")
