@@ -74,16 +74,16 @@ def main(bot, body):
         return
 
     # join command
-    if text[:4] == "/join":
-        room_no[4:]
+    if text[:5] == "/join":
+        room_no[5:]
         queue = get_queue(room_no)
         join_command(bot, queue, chat_id, username, room_no)
         logger.info("Join command detected and processed.")
         return
 
     # leave command
-    if text[:5] == "/leave":
-        room_no = text[5:]
+    if text[:6] == "/leave":
+        room_no = text[6:]
         queue = get_queue(room_no)
         leave_command(bot, queue, chat_id, room_no)
         logger.info("Leave command detected and processed.")
@@ -98,8 +98,8 @@ def main(bot, body):
     # admin commands
     if chat_id in ADMINS.values():
         # viewqueue command
-        if text[:9] == "/viewqueue":
-            room_no = text[9:]
+        if text[:10] == "/viewqueue":
+            room_no = text[10:]
             queue = get_queue(room_no, isAdmin=True)
             viewqueue_command(bot, queue, chat_id, queue_no)
             logger.info("Admin viewqueue command detected and processed.")
