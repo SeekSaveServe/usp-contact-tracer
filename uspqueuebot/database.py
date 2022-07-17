@@ -9,7 +9,7 @@ if logger.handlers:
 logging.basicConfig(level=logging.INFO)
 
 # Setting up client with AWS
-client = boto3.resource("dynamodb")
+client = boto3.resource("dynamodb", region_name='us-east-1')
 TABLE_NAME = "USPContactTraceBotTable"
 table = client.Table(TABLE_NAME)
 

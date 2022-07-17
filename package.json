@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "dependencies": {
     "0g": "^0.0.9",
+    "boto3": "^0.0.1",
     "serverless": "^3.21.0"
   },
   "devDependencies": {
