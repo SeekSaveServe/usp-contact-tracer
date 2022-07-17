@@ -4,12 +4,11 @@
 
 ## Features
 
-* Telegram Bot: [@uspqueuebot](https://telegram.me/uspqueuebot)
+- Telegram Bot: [@@uspContactTrace_bot](https://telegram.me/uspContactTrace_bot)
 
-The USP Queue Bot simulates a physical queue that is managed using simple commands.
-Users can join and leave the queue, while also keeping track of the queue length and their position in the queue.
-Admins can also manage the queue by removing or bumping the first user in the queue.
-The first few users in the queue would also be automatically informed as it is nearing their turn.
+The NUSC Contact Trace Bot simulates a contact tracing app that is managed using simple commands.
+Users can join and leave the room, and the bot tracks when the user has entered or left the room.
+Admins can also manage the rooms by broadcasting messages.
 Responses from the bot are also in Singlish to keep the vibe fun and local.
 
 ## General Commands
@@ -22,46 +21,46 @@ Displays start message.
 
 Displays help message with available commands.
 
-### `/join`
+### `/join#`
 
-Adds user into the queue.
+Adds user into the room #
 
-### `/leave`
+### `/leave#`
 
-Removes user from the queue.
+Updates the user's exit time from room #
 
-### `/howlong`
+<!-- ### `/howlong`
 
-Displays the user's position in the queue and the overall queue length.
+Displays the user's position in the queue and the overall queue length. -->
 
 ## Admin Commands
 
 These commands would only work if the user is an admin.
 
-### `/viewqueue`
+### `/viewqueue#`
 
-Displays the entire ordered queue by usernames.
+Displays the entire ordered queue in room # grouped by usernames.
 
-### `/next`
+<!-- ### `/next`
 
 Removes the first person in the queue when they have been served.
 The admin would be informed of the username of the user that is next in line.
-The next few users would also be notified of their progress in the line.
+The next few users would also be notified of their progress in the line. -->
 
-### `/bump`
+<!-- ### `/bump`
 
 Bumps the first person in the queue by a few positions if they are late.
 The admin would be informed of the username of the user that is next in line.
-The next few users would also be notified of their progress in the line.
+The next few users would also be notified of their progress in the line. -->
 
-### `/purge`
+<!-- ### `/purge`
 
 Purges the entire queue.
-Users in the queue will be notified of their removal from the queue.
+Users in the queue will be notified of their removal from the queue. -->
 
 ### `/broadcast <message>`
 
-Broadcasts a message to all users in the queue.
+Broadcasts a message to all users in all rooms.
 
 ## Debugging
 
@@ -72,7 +71,7 @@ The following outlines the procedure for debugging.
 3. In the command line, execute `severless deploy` or run `deploy.bat`.
 4. From now on, all message metadata would be sent to the admin for debugging.
 5. Users who sends messages to the bot will also receive an "under maintenance" response.
-6. After debugging, change `DEBUG_MODE` in uspqueuebot/main.py back to `True`.
+6. After debugging, change `DEBUG_MODE` in uspqueuebot/main.py back to `False`.
 7. In the command line, execute `severless deploy` again.
 
 ## AWS and Serverless Deployment
@@ -94,6 +93,12 @@ $ npm install
 
 ```lang-none
 # Update AWS CLI in .aws/credentials
+OR
+$ serverless config credentials \
+  --provider aws \
+  --key AKIAIOSFODNN7EXAMPLE \
+  --secret wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
 
 # Deploy it!
 $ serverless deploy
@@ -105,7 +110,7 @@ $ curl -X POST https://<your_url>.amazonaws.com/dev/set_webhook
 ### AWS Configurations
 
 1. From the AWS Console, select AWS Lambda.
-2. In AWS Lambda, select "usp-queue-bot-dev-webhook".
+2. In AWS Lambda, select "usp-contact-trace-bot-dev-webhook".
 3. Select "Permissions" and select the Lambda role under "Execution role".
 4. In AWS IAM, select "Attach policies" under "Permissions" and "Permissions policies".
 5. Search for and select "AmazonDynamoDBFullAccess" and "Attach policy".

@@ -1,9 +1,11 @@
 import logging
 import boto3
 import datetime
-import pytz
+import pytz_deprecation_shim as pytz
+
 # time-zone
 time_zone = "Singapore"
+
 # Logging is cool!
 logger = logging.getLogger()
 if logger.handlers:
