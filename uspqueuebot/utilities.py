@@ -144,7 +144,7 @@ def get_next_queue_number(queue):
 def is_in_queue(queue, chat_id):
     for entry in queue:
         # if the user has entered room and has not exited
-        if entry[1] == chat_id and not entry["exit_time"]:
+        if entry["chat_id"] == chat_id and not entry["exit_time"]:
             return True
     return False
 
@@ -153,7 +153,7 @@ def get_position(chat_id, queue):
     position = 0
     found = False
     for entry in queue:
-        if entry[1] == chat_id:
+        if entry["chat_id"] == chat_id:
             found = True
             break
         position += 1

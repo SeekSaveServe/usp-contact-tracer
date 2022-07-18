@@ -70,7 +70,7 @@ def insert_user(hashid, chat_id, username, queue_number, room_no):
     Insert a new entry into the table with timestamp
     """
     # utc + 8 = sg time
-    timestamp = datetime.utcnow() + timedelta(hours=8)
+    timestamp = repr(datetime.utcnow() + timedelta(hours=8))
     logger.info(f"room_no: {room_no}, timestamp {timestamp}")
     table.update_item(
         Key = {"hashid": hashid},
@@ -87,7 +87,8 @@ def remove_user(hashid):
     timestamp = repr(datetime.utcnow() + timedelta(hours=8))
     table.update_item(
         Key = {"hashid": hashid},
-        UpdateExpression = "SET {} =:val5".format("chat_id", "username", "queue_number", "entry_time", "exit_time"),
+        UpdateExpression = "SET {} =:val5".format( "exit_time"),
         ExpressionAttributeValues = {":val5": timestamp}
         )
     logger.info("Exit time successfully updated into DynamoDB.")
+# table.delete_item(Key = {'hashid' : '2ecf0e196e4154e9cb85f269a4a0c4fcd8466dc128a85450f27f820d7f8a4947'})
