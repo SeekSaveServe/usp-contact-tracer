@@ -1,6 +1,6 @@
 import logging
 import boto3
-import datetime
+from datetime import datetime, timedelta
 
 # time-zone
 time_zone = "Singapore"
@@ -70,7 +70,7 @@ def insert_user(hashid, chat_id, username, queue_number, room_no):
     Insert a new entry into the table with timestamp
     """
     # utc + 8 = sg time
-    timestamp = datetime.datetime().now() + timedelta(hours=8)
+    timestamp = datetime.utcnow() + timedelta(hours=8)
     logger.info(f"room_no: {room_no}, timestamp {timestamp}")
     table.update_item(
         Key = {"hashid": hashid},
@@ -84,7 +84,7 @@ def remove_user(hashid):
     Adds exit time to an entry with hashid
     """
     # utc + 8 = sg time
-    timestamp = datetime.datetime().now() + timedelta(hours=8)
+    timestamp = repr(datetime.utcnow() + timedelta(hours=8))
     table.update_item(
         Key = {"hashid": hashid},
         UpdateExpression = "SET {} =:val5".format("chat_id", "username", "queue_number", "entry_time", "exit_time"),
