@@ -39,7 +39,6 @@ def join_command(bot, queue, chat_id, username, room_no):
     if len(queue) == 0:
         bot.send_message(chat_id=chat_id, text=YOUR_TURN_MESSAGE)
         logger.info("Newly added user is first in line.")
-    
     return
 
 def leave_command(bot, queue, chat_id, room_no):

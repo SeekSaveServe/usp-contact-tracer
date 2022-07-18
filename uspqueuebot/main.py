@@ -101,7 +101,7 @@ def main(bot, body):
         if text[:10] == "/viewqueue":
             room_no = text[10:]
             queue = get_queue(room_no, isAdmin=True)
-            viewqueue_command(bot, queue, chat_id, queue_no)
+            viewqueue_command(bot, queue, chat_id, room_no)
             logger.info("Admin viewqueue command detected and processed.")
             return
         

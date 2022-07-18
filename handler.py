@@ -71,7 +71,7 @@ def webhook(event, context):
         try:
             main(bot, body)
         except Exception as error:
-            error_message = "There is an unhandled exception, please debug immediately.\n" + error.__str__()
+            error_message = "There is an unhandled exception, please debug immediately.\n" + repr(error)
             bot.send_message(chat_id=ADMIN_CHAT_ID, text=error_message)
             logger.error(error_message)
             logger.error('Event: {}'.format(body))
