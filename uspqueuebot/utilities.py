@@ -114,7 +114,7 @@ def get_queue(room_no, isAdmin=False):
     queue = []
     if not isAdmin:
         for entry in raw_table["Items"]:
-            if entry["room_no"] != room_no and room_no != "all":
+            if entry[6] != room_no and room_no != "all":
                 continue
             queue_number = decimal_to_int(entry["queue_number"])
             chat_id = decimal_to_int(entry["chat_id"])
@@ -122,7 +122,7 @@ def get_queue(room_no, isAdmin=False):
             queue.append((queue_number, chat_id, username))
     else:
         for entry in raw_table["Items"]:
-            if entry["room_no"] != room_no and room_no != "all":
+            if entry[6] != room_no and room_no != "all":
                 continue
             queue_number = decimal_to_int(entry["queue_number"])
             chat_id = decimal_to_int(entry["chat_id"])
