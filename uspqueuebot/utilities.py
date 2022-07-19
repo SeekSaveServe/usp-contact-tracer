@@ -133,6 +133,7 @@ def get_queue(room_no, isAdmin=False):
             exit_time = exit_timr["exit_time"]
             queue.append((queue_number, chat_id, username, entry_time, exit_time, room_no))
     queue.sort()
+    logging.info("Queue obtained successfully")
     return queue
 
 def get_next_queue_number(queue):
