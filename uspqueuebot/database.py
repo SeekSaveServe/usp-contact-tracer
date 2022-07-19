@@ -85,6 +85,7 @@ def remove_user(hashid):
     """
     # utc + 8 = sg time
     timestamp = repr(datetime.utcnow() + timedelta(hours=8))
+    logger.info("Updating table")
     table.update_item(
         Key = {"hashid": hashid},
         UpdateExpression = "SET {} =:val5".format( "exit_time"),

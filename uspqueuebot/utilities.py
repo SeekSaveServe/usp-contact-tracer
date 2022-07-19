@@ -113,7 +113,7 @@ def get_queue(room_no, isAdmin=False):
     raw_table = get_table()
     queue = []
     # remove for deployment
-    logging.error(repr(raw_table))
+    # logging.error(repr(raw_table))
     if not isAdmin:
         for entry in raw_table["Items"]:
             if entry["room_no"] != room_no and room_no != "all":
