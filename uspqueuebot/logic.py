@@ -15,7 +15,7 @@ from uspqueuebot.database import insert_user, remove_user
 from uspqueuebot.utilities import (get_bump_queue, get_first_chat_id,
                                    get_first_username, get_next_queue,
                                    get_next_queue_number, get_position,
-                                   get_sha256_hash, is_in_queue)
+                                   get_sha256_hash, is_in_queue, row_exist, get_hashId)
 
 # Logging is cool!
 logger = logging.getLogger()
@@ -24,14 +24,25 @@ if logger.handlers:
         logger.removeHandler(handler)
 logging.basicConfig(level=logging.INFO)
 
-def join_command(bot, queue, chat_id, username, room_no):
+def join_command(bot, queue: "list[tuple]", chat_id, username, room_no):
+    # ensure that new row can only be added if there isn't an active entry
     if is_in_queue(queue, chat_id):
         bot.send_message(chat_id=chat_id, text=IN_QUEUE_MESSAGE)
         logger.info("User already in queue tried to join queue.")
         return
 
-    queue_number = get_next_queue_number(queue)
-    hashid = get_sha256_hash(chat_id)
+    # calculating a new row num  - ensures new row is added
+    logger.info("Calculating pkey")
+    offset = 0
+    pkey = get_sha256_hash(str(chat_id)+str(room_no)+str(offset))
+    while row_exist(queue, pkey):
+        offset += 1
+        pkey = get_sha256_hash(str(chat_id)+str(room_no)+str(offset))
+
+    # queue_number = get_next_queue_number(queue)
+    queue_number = -1
+    hashid = pkey
+    logger.info("inserting into table")
     insert_user(hashid, chat_id, username, queue_number, room_no)
     bot.send_message(chat_id=chat_id, text=JOIN_SUCCESS_MESSAGE)
     logger.info("New user added to the queue.")
@@ -41,14 +52,21 @@ def join_command(bot, queue, chat_id, username, room_no):
         logger.info("Newly added user is first in line.")
     return
 
-def leave_command(bot, queue, chat_id, room_no):
+def leave_command(bot, queue: "list[tuple]", chat_id, room_no):
+    logger.info("Checking if in queue")
     if not is_in_queue(queue, chat_id):
         bot.send_message(chat_id=chat_id, text=NOT_IN_QUEUE_MESSAGE)
         logger.info("User not in queue tried to leave queue.")
         return
     
-    hashid = get_sha256_hash(chat_id)
-    remove_user(hashid, room_no)
+    hashid = get_hashId(queue, chat_id)
+    logger.info(f"Hashid: {hashid}")
+    if hashid == -1:
+        bot.send_message(chat_id=chat_id, text=NOT_IN_QUEUE_MESSAGE)
+        logger.info("User not in queue tried to leave queue.")
+        return 
+    logger.info("Removing user")
+    remove_user(hashid)
     bot.send_message(chat_id=chat_id, text=LEAVE_SUCCESS_MESSAGE)
     logger.info("User removed from the queue.")
     return

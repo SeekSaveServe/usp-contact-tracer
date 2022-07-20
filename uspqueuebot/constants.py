@@ -8,22 +8,21 @@ NUMBER_TO_BUMP = 5
 # Messages sent to the user
 INVALID_FORMAT_MESSAGE = "Simi? I can only read text, don't send me anything else."
 NO_COMMAND_MESSAGE = "What are you saying?? Send a proper command lah please."
-START_MESSAGE = "Harlo ah! Easy peasy, /join to join queue, or /help if you still blur."
+START_MESSAGE = "Harlo ah! Easy peasy, /join# to join queue number #, or /help if you still blur."
 HELP_MESSAGE = "Aiyo ok ok, these are what you can use:" +\
     "\n  /start - Display start message" +\
     "\n  /help - Display help message with available commands" +\
-    "\n  /join - Join the queue" +\
-    "\n  /leave - Leave the queue" +\
-    "\n  /howlong - Get your position and queue length" +\
+    "\n  /join# - Join room number #" +\
+    "\n  /leave# - Leave room number #" +\
     "\n\nStill don't know ah? Aish ok message me here: " + ADMIN_HANDLE
-IN_QUEUE_MESSAGE = "Tsk! You are already in the queue lah!"
-JOIN_SUCCESS_MESSAGE = "See got queue then happy happy just join right? Ok ok I put you in."
+IN_QUEUE_MESSAGE = "Tsk! You are already in the room lah!"
+JOIN_SUCCESS_MESSAGE = "See got room then happy happy just join right? Ok ok I put you in."
 YOUR_TURN_MESSAGE = "Eh eh its your turn already, hurry up lah can or not?"
 NOT_IN_QUEUE_MESSAGE = "Woi... You are not in the queue yet leh!"
-LEAVE_SUCCESS_MESSAGE = "You think this one game is it? Join queue then leave... Nevermind, take you out of the queue already."
+LEAVE_SUCCESS_MESSAGE = "You think this one game is it? Join room then leave... Nevermind, take you out of the room already."
 POSITION_MESSAGE = "How long more ah? Now in front of you got "
 QUEUE_LENGTH_MESSAGE = " people. Then, the whole queue total got "
-EMPTY_QUEUE_MESSAGE = "Nobody in the queue lah what are you doing??"
+EMPTY_QUEUE_MESSAGE = "Nobody in the room lah what are you doing??"
 NEXT_SUCCESS_MESSAGE = "Ok done, next person is "
 COME_NOW_MESSAGE = "Oi! Quick come, it's almost you liao. Number of people in front of you: "
 BUMP_SUCCESS_MESSAGE = "Ok liao, that late person got bumped down already. Next person in line is "

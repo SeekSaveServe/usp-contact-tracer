@@ -109,29 +109,30 @@ def get_sha256_hash(plaintext):
     hash = hasher.hexdigest()
     return hash
 
-def get_queue(room_no, isAdmin=False):
+def get_queue(room_no, isAdmin=False)-> "list[tuple]":
     raw_table = get_table()
     queue = []
     # remove for deployment
     # logging.error(repr(raw_table))
-    if not isAdmin:
-        for entry in raw_table["Items"]:
-            if entry["room_no"] != room_no and room_no != "all":
-                continue
-            queue_number = decimal_to_int(entry["queue_number"])
-            chat_id = decimal_to_int(entry["chat_id"])
-            username = entry["username"]
-            queue.append((queue_number, chat_id, username))
-    else:
-        for entry in raw_table["Items"]:
-            if entry["room_no"] != room_no and room_no != "all":
-                continue
-            queue_number = decimal_to_int(entry["queue_number"])
-            chat_id = decimal_to_int(entry["chat_id"])
-            username = entry["username"]
-            entry_time = entry["entry_time"]
-            exit_time = exit_timr["exit_time"]
-            queue.append((queue_number, chat_id, username, entry_time, exit_time, room_no))
+    # if not isAdmin:
+    #     for entry in raw_table["Items"]:
+    #         if entry["room_no"] != room_no and room_no != "all":
+    #             continue
+    #         queue_number = decimal_to_int(entry["queue_number"])
+    #         chat_id = decimal_to_int(entry["chat_id"])
+    #         username = entry["username"]
+    #         queue.append((queue_number, chat_id, username))
+    # else:
+    for entry in raw_table["Items"]:
+        if entry["room_no"] != room_no and room_no != "all":
+            continue
+        # queue_number = decimal_to_int(entry["queue_number"])
+        hashid = entry["hashid"]
+        chat_id = decimal_to_int(entry["chat_id"])
+        username = entry["username"]
+        entry_time = entry["entry_time"]
+        exit_time = entry["exit_time"]
+        queue.append((hashid, chat_id, username, entry_time, exit_time, room_no))
     queue.sort()
     logging.info("Queue obtained successfully")
     return queue
@@ -142,19 +143,37 @@ def get_next_queue_number(queue):
         queue_number = queue[-1][0] + 1
     return queue_number
     
-def is_in_queue(queue, chat_id):
+def is_in_queue(queue: "lit[tuple]", chat_id):
+    # queue:queue_number, chat_id, username, entry_time, exit_time, room_no
+    # logging.info(f"Queue: {queue}")
     for entry in queue:
         # if the user has entered room and has not exited
-        if entry["chat_id"] == chat_id and not entry["exit_time"]:
+        if entry[1] == chat_id and not entry[4]:
             return True
     return False
+
+def row_exist(queue: "List[tuple]", pkey: "hashed val"):
+    for entry in queue:
+        # if there are existing rows sharing the hash val
+        if entry[0] == pkey:
+            return True
+    return False
+
+def get_hashId(queue: "List[tuple]", chat_id: str) -> int:
+    logging.info(f"Queue: {queue}")
+    for entry in queue:
+        # get enry that has the same chat_id and has not exited
+        if entry[1] == chat_id and not entry[4]:
+            return entry[0]
+    # not found
+    return -1
 
 def get_position(chat_id, queue):
     ## position is equivalent to number of people ahead of user
     position = 0
     found = False
     for entry in queue:
-        if entry["chat_id"] == chat_id:
+        if entry[1] == chat_id:
             found = True
             break
         position += 1

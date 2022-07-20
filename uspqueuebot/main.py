@@ -85,6 +85,7 @@ def main(bot, body):
     if text[:6] == "/leave":
         room_no = text[6:]
         queue = get_queue(room_no)
+        logger.info("About to execute leave command")
         leave_command(bot, queue, chat_id, room_no)
         logger.info("Leave command detected and processed.")
         return
