@@ -74,7 +74,7 @@ def main(bot, body):
         return
 
     # join command
-    if text[:5] == "/join":
+    if text[:5] == "/join" and len(text) > 5:
         room_no = text[5:]
         queue = get_queue(room_no)
         join_command(bot, queue, chat_id, username, room_no)
@@ -82,7 +82,7 @@ def main(bot, body):
         return
 
     # leave command
-    if text[:6] == "/leave":
+    if text[:6] == "/leave" and len(text) > 6:
         room_no = text[6:]
         queue = get_queue(room_no)
         logger.info("About to execute leave command")

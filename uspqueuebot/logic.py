@@ -47,9 +47,9 @@ def join_command(bot, queue: "list[tuple]", chat_id, username, room_no):
     bot.send_message(chat_id=chat_id, text=JOIN_SUCCESS_MESSAGE)
     logger.info("New user added to the queue.")
 
-    if len(queue) == 0:
-        bot.send_message(chat_id=chat_id, text=YOUR_TURN_MESSAGE)
-        logger.info("Newly added user is first in line.")
+    # if len(queue) == 0:
+    #     bot.send_message(chat_id=chat_id, text=YOUR_TURN_MESSAGE)
+    #     logger.info("Newly added user is first in line.")
     return
 
 def leave_command(bot, queue: "list[tuple]", chat_id, room_no):
