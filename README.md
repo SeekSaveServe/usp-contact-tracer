@@ -4,7 +4,7 @@
 
 ## Features
 
-- Telegram Bot: [@@uspContactTrace_bot](https://telegram.me/uspContactTrace_bot)
+- Telegram Bot: [@uspContactTrace_bot](https://telegram.me/uspContactTrace_bot)
 
 The NUSC Contact Trace Bot simulates a contact tracing app that is managed using simple commands.
 Users can join and leave the room, and the bot tracks when the user has entered or left the room.
