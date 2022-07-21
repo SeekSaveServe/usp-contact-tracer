@@ -37,9 +37,9 @@ Displays the user's position in the queue and the overall queue length. -->
 
 These commands would only work if the user is an admin.
 
-### `/viewqueue#`
+<!-- ### `/viewqueue#`
 
-Displays the entire ordered queue in room # grouped by usernames.
+Displays the entire ordered queue in room # grouped by usernames. -->
 
 <!-- ### `/next`
 
