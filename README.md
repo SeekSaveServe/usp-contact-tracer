@@ -106,6 +106,8 @@ $ serverless
 OR
 $ serverless deploy
 
+# This may be needed due to aliasing conflict with Cmdlet
+Remove-item alias:curl
 # With the URL returned in the output, configure the Webhook
 $ curl -X POST https://<your_url>.amazonaws.com/dev/set_webhook
 ```
