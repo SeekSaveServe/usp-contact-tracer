@@ -101,6 +101,9 @@ $ serverless config credentials \
 
 
 # Deploy it!
+(for the first time)
+$ serverless
+OR
 $ serverless deploy
 
 # With the URL returned in the output, configure the Webhook
